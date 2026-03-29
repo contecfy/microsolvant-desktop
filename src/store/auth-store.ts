@@ -24,14 +24,19 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set): AuthState => ({
-      user: null,
-      token: null,
-      activeCompanyId: null,
+    (set) => ({
+      user: null as IUser | null,
+      token: null as string | null,
+      activeCompanyId: null as string | null,
       isAuthenticated: false,
 
       setAuth: (user, token) => {
-        const activeId = user?.companies?.length > 0 ? user.companies[0] : null;
+        const activeId = user.companies?.length > 0 ? user.companies[0] : null;
+        
+        // Also set manual keys for the API interceptor compatibility
+        localStorage.setItem('auth_token', token);
+        if (activeId) localStorage.setItem('active_company_id', activeId);
+
         set({ 
           user, 
           token, 
@@ -41,10 +46,13 @@ export const useAuthStore = create<AuthState>()(
       },
 
       setActiveCompany: (id) => {
+        localStorage.setItem('active_company_id', id);
         set({ activeCompanyId: id });
       },
 
       logout: () => {
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('active_company_id');
         set({ 
           user: null, 
           token: null, 

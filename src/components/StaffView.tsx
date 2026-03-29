@@ -1,14 +1,29 @@
-import React from 'react';
-import { UserCheck, Shield, Mail, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { UserCheck, Shield, Mail, Loader2 } from 'lucide-react';
 import NativeButton from './NativeButton';
+import apiClient from '../api/api-client';
 import './DashboardView.css';
 
 const StaffView: React.FC = () => {
-  const staff = [
-    { id: 'ST-01', name: 'Joel Doe', role: 'Administrator', email: 'joel@microsolvant.com', status: 'Online' },
-    { id: 'ST-02', name: 'Sarah Smith', role: 'Loan Officer', email: 'sarah@microsolvant.com', status: 'Offline' },
-    { id: 'ST-03', name: 'James Brown', role: 'Accountant', email: 'james@microsolvant.com', status: 'Online' },
-  ];
+  const [staff, setStaff] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        setLoading(true);
+        const { data } = await apiClient.get('/users');
+        // Filter out clients and investors to get staff
+        const filtered = data.filter((u: any) => u.role !== 'client' && u.role !== 'investor');
+        setStaff(filtered);
+      } catch (err) {
+        console.error('Failed to fetch staff', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStaff();
+  }, []);
 
   return (
     <div className="content-container">
@@ -24,29 +39,42 @@ const StaffView: React.FC = () => {
         </div>
       </header>
 
-      <div className="staff-list">
-        {staff.map((member) => (
-          <div key={member.id} className="staff-item">
-             <div className="staff-main">
-                <div className="avatar">{member.name.charAt(0)}</div>
-                <div className="staff-info">
-                    <span className="staff-name">{member.name}</span>
-                    <span className="staff-role"><Shield size={12} /> {member.role}</span>
-                </div>
-             </div>
-             <div className="staff-contact">
-                <span className="staff-email"><Mail size={14} /> {member.email}</span>
-             </div>
-             <div className="staff-status">
-                <span className={`status-indicator ${member.status.toLowerCase()}`}></span>
-                <span>{member.status === 'Online' ? 'Active Now' : 'Last seen 2h ago'}</span>
-             </div>
-             <div className="staff-actions">
-                <NativeButton variant="secondary" size="sm">Permissions</NativeButton>
-             </div>
-          </div>
-        ))}
-      </div>
+      {loading ? (
+        <div className="loading-state">
+          <Loader2 size={32} className="animate-spin" />
+          <span>Verifying institutional access...</span>
+        </div>
+      ) : (
+        <div className="staff-list">
+          {staff.length > 0 ? staff.map((member) => (
+            <div key={member._id} className="staff-item">
+               <div className="staff-main">
+                  <div className="avatar">{member.fullName.charAt(0)}</div>
+                  <div className="staff-info">
+                      <span className="staff-name">{member.fullName}</span>
+                      <span className="staff-role">
+                        <Shield size={12} /> {member.role.replace('_', ' ').toUpperCase()}
+                      </span>
+                  </div>
+               </div>
+               <div className="staff-contact">
+                  <span className="staff-email"><Mail size={14} /> {member.email}</span>
+               </div>
+               <div className="staff-status">
+                  <span className={`status-indicator online`}></span>
+                  <span>Institutional Member</span>
+               </div>
+               <div className="staff-actions">
+                  <NativeButton variant="secondary" size="sm">Permissions</NativeButton>
+               </div>
+            </div>
+          )) : (
+            <div className="empty-state-full">
+              No institutional staff members found.
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

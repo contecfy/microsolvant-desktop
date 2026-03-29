@@ -9,9 +9,20 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor for auth token (to be integrated with Zustand later)
-apiClient.interceptors.request.use((config) => {
-  // Logic once Zustand store is ported
+// Interceptor to add auth token and active company ID to requests
+apiClient.interceptors.request.use(async (config) => {
+  const token = localStorage.getItem('auth_token');
+  const activeCompanyId = localStorage.getItem('active_company_id');
+
+  if (token) {
+    // Remove quotes if any (Zustand persist sometimes adds them)
+    config.headers.Authorization = `Bearer ${token.replace(/^["']|["']$/g, "").trim()}`;
+  }
+
+  if (activeCompanyId) {
+    config.headers['x-company-id'] = activeCompanyId.replace(/^["']|["']$/g, "").trim();
+  }
+
   return config;
 });
 

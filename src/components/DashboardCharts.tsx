@@ -13,23 +13,28 @@ import {
   Legend,
 } from "recharts";
 
-const performanceData = [
-  { month: "Oct", dispensed: 4500000, collected: 3800000 },
-  { month: "Nov", dispensed: 5200000, collected: 4100000 },
-  { month: "Dec", dispensed: 4800000, collected: 4500000 },
-  { month: "Jan", dispensed: 6100000, collected: 5200000 },
-  { month: "Feb", dispensed: 5500000, collected: 5800000 },
-  { month: "Mar", dispensed: 7200000, collected: 6400000 },
-];
+interface PerformanceData {
+  month: string;
+  dispensed: number;
+  collected: number;
+}
 
-const portfolioData = [
-  { name: "Active", value: 65, color: "#3b82f6" }, 
-  { name: "Arrears", value: 15, color: "#f59e0b" }, 
-  { name: "Default", value: 5, color: "#ef4444" }, 
-  { name: "Paid Off", value: 15, color: "#10b981" },
-];
+interface PortfolioData {
+  name: string;
+  value: number;
+  color: string;
+}
 
-export const LoanVolumeChart: React.FC = () => {
+export const LoanVolumeChart: React.FC<{ data?: PerformanceData[] }> = ({ data }) => {
+  const performanceData = data || [
+    { month: "Oct", dispensed: 4500000, collected: 3800000 },
+    { month: "Nov", dispensed: 5200000, collected: 4100000 },
+    { month: "Dec", dispensed: 4800000, collected: 4500000 },
+    { month: "Jan", dispensed: 6100000, collected: 5200000 },
+    { month: "Feb", dispensed: 5500000, collected: 5800000 },
+    { month: "Mar", dispensed: 7200000, collected: 6400000 },
+  ];
+
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
@@ -50,7 +55,7 @@ export const LoanVolumeChart: React.FC = () => {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: "var(--text-secondary)", fontSize: 12 }}
-            tickFormatter={(value: number) => `${value / 1000000}M`}
+            tickFormatter={(value: number) => `${(value / 1000000).toFixed(1)}M`}
           />
           <Tooltip 
             cursor={{ fill: 'var(--bg-tertiary)', opacity: 0.4 }}
@@ -80,7 +85,14 @@ export const LoanVolumeChart: React.FC = () => {
   );
 };
 
-export const PortfolioDonutChart: React.FC = () => {
+export const PortfolioDonutChart: React.FC<{ data?: PortfolioData[] }> = ({ data }) => {
+  const portfolioData = data || [
+    { name: "Active", value: 65, color: "#3b82f6" }, 
+    { name: "Arrears", value: 15, color: "#f59e0b" }, 
+    { name: "Default", value: 5, color: "#ef4444" }, 
+    { name: "Paid Off", value: 15, color: "#10b981" },
+  ];
+
   return (
     <div style={{ width: '100%', height: 300 }}>
       <ResponsiveContainer>
