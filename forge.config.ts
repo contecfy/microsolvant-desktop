@@ -17,7 +17,15 @@ const config: ForgeConfig = {
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
     new MakerRpm({}),
-    new MakerDeb({}),
+    new MakerDeb({
+      options: {
+        icon: './src/assets/icon.png',
+        name: 'microsolvant',
+        productName: 'Microsolvant',
+        genericName: 'Microfinance Management',
+        categories: ['Finance', 'Office'],
+      }
+    }),
   ],
   plugins: [
     new VitePlugin({

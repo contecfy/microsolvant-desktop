@@ -18,7 +18,7 @@ const createWindow = () => {
     minHeight: 600,
     title: 'Microsolvant',
     // Use the source asset path for consistent development icons
-    icon: path.join(app.getAppPath(), 'src/assets/icon.png'),
+    icon: path.resolve(__dirname, process.env.NODE_ENV === 'development' ? '../src/assets/icon.png' : 'assets/icon.png'),
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#121212', // Match our CSS bg
     show: false, // Don't show until ready-to-show

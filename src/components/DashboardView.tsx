@@ -1,11 +1,11 @@
 import React from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  CreditCard, 
-  Settings, 
-  LogOut, 
-  Search, 
+import {
+  LayoutDashboard,
+  Users,
+  CreditCard,
+  Settings,
+  LogOut,
+  Search,
   Bell,
   Plus,
   BarChart3,
@@ -54,7 +54,7 @@ const DashboardView: React.FC = () => {
             <section className="stats-grid">
               <div className="stats-card">
                 <span className="stats-label">Total Portfolio</span>
-                <span className="stats-value">UGX 4.2M</span>
+                <span className="stats-value">UGX 40.2M</span>
                 <span className="stats-trend positive">+12% from last month</span>
               </div>
               <div className="stats-card">
@@ -77,7 +77,7 @@ const DashboardView: React.FC = () => {
                 </div>
                 <LoanVolumeChart />
               </div>
-              
+
               <div className="chart-container">
                 <div className="chart-header">
                   <h3>Portfolio Health</h3>
@@ -125,28 +125,28 @@ const DashboardView: React.FC = () => {
         <nav className="sidebar-nav">
           <div className="nav-group">
             <span className="nav-label">Management</span>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'dashboard' ? 'active' : ''}`}
               onClick={() => setView('dashboard')}
             >
               <LayoutDashboard size={18} />
               <span>Overview</span>
             </div>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'clients' ? 'active' : ''}`}
               onClick={() => setView('clients')}
             >
               <Users size={18} />
               <span>Clients</span>
             </div>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'loans' ? 'active' : ''}`}
               onClick={() => setView('loans')}
             >
               <ReceiptIndianRupee size={18} />
               <span>Loans</span>
             </div>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'staff' ? 'active' : ''}`}
               onClick={() => setView('staff')}
             >
@@ -165,14 +165,14 @@ const DashboardView: React.FC = () => {
 
           <div className="nav-group">
             <span className="nav-label">Insights</span>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'reports' ? 'active' : ''}`}
               onClick={() => setView('reports')}
             >
               <BarChart3 size={18} />
               <span>Reports</span>
             </div>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'analytics' ? 'active' : ''}`}
               onClick={() => setView('analytics')}
             >
@@ -187,7 +187,7 @@ const DashboardView: React.FC = () => {
               <Bell size={18} />
               <span>Billing</span>
             </div>
-            <div 
+            <div
               className={`nav-item ${activeSubView === 'settings' ? 'active' : ''}`}
               onClick={() => setView('settings')}
             >
@@ -225,7 +225,7 @@ const DashboardView: React.FC = () => {
               <input type="text" placeholder="Search loans, clients, reports..." />
             </div>
           </div>
-          
+
           <div className="header-right">
             <div className="header-actions">
               <NativeButton variant="secondary" size="sm" className="action-circle">

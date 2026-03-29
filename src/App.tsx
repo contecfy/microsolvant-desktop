@@ -30,26 +30,32 @@ const App: React.FC = () => {
 
   return (
     <div className="app-shell">
+      {/* Background Visual */}
+      <div className="gateway-bg">
+        <img 
+          src="https://images.pexels.com/photos/169647/pexels-photo-169647.jpeg" 
+          alt="Gateway Background" 
+        />
+      </div>
+
       {/* Native-like Title Bar (Draggable) */}
       <div className="title-bar drag-handle">
         <div className="app-title">
-          <Shield size={14} className="app-icon" />
-          <span>Microsolvant</span>
+          <Shield size={16} className="app-icon" />
+          <span>Institutional Gateway</span>
         </div>
       </div>
 
       <main className="main-content">
-        <div className="hero-section">
+        <div className="hero-glass">
           <div className="brand-logo">
-            <div className="logo-inner">
-              <LayoutDashboard size={48} color="var(--accent-primary)" />
-            </div>
+            <LayoutDashboard size={40} color="#000" />
           </div>
           
-          <h1 className="hero-title">Welcome to Microsolvant</h1>
+          <h1 className="hero-title">Microsolvant</h1>
           <p className="hero-subtitle">
-            The intelligent platform for microfinance management and local lending. 
-            Secure, fast, and cross-platform.
+            Experience the next generation of institutional-grade micro-finance management. 
+            Secure, professional, and built for scale.
           </p>
 
           <div className="action-group">
@@ -62,9 +68,10 @@ const App: React.FC = () => {
               Get Started <ArrowRight size={18} />
             </NativeButton>
             <NativeButton 
-              variant="secondary" 
+              variant="ghost" 
               size="lg" 
               className="hero-btn"
+              style={{ color: '#fff', border: '1px solid rgba(255,255,255,0.2)' }}
               onClick={() => setView('login')}
             >
               Sign In
@@ -75,14 +82,15 @@ const App: React.FC = () => {
         <div className="footer-status">
           <div className="status-item">
             <div className="status-dot online"></div>
-            <span>System Online</span>
+            <span>System Operational</span>
           </div>
           <div className="status-divider"></div>
           <div className="status-item">
             <Globe size={14} />
-            <span>Region: East Africa</span>
+            <span>Region: GLOBAL ACCESS</span>
           </div>
-          <div className="v-tag">v1.0.0</div>
+          <div className="status-divider"></div>
+          <div className="v-tag">VER 1.0.0-PRO</div>
         </div>
       </main>
     </div>

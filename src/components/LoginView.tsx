@@ -20,58 +20,92 @@ const LoginView: React.FC = () => {
 
   return (
     <div className="login-overlay">
-      <div className="login-card">
-        <div className="login-header">
+      {/* Visual Side */}
+      <div className="login-visual">
+        <img 
+          src="https://images.pexels.com/photos/34926382/pexels-photo-34926382.jpeg" 
+          alt="Banking Background" 
+        />
+        
+        <div className="visual-content">
+          <div className="visual-brand">
+            <Shield size={28} color="#fff" />
+            <h1>Microsolvant</h1>
+          </div>
+          
+          <div className="visual-message">
+            <h2>Institutional<br/>Excellence</h2>
+            <p>Gateway to premium capital management and institutional-grade micro-finance infrastructure.</p>
+          </div>
+        </div>
+
+        <div className="visual-footer">
+          <div className="status-indicator">
+            <div className="status-dot active"></div>
+            <div className="status-dot"></div>
+            <div className="status-dot"></div>
+          </div>
+          <span className="security-text">System Security: Optimal</span>
+        </div>
+      </div>
+
+      {/* Interaction Side */}
+      <div className="login-interaction">
+        <div className="interaction-container">
           <NativeButton 
             variant="ghost" 
             size="sm" 
             onClick={() => setView('intro')}
-            className="back-btn"
+            className="back-to-intro"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={16} style={{ marginRight: '8px' }} /> Return to Gateway
           </NativeButton>
-          <div className="login-brand">
-            <Shield size={24} color="var(--accent-primary)" />
-            <h2>Sign In</h2>
-          </div>
-        </div>
 
-        <form onSubmit={handleLogin} className="login-form">
-          <NativeInput 
-            label="Email Address" 
-            type="email" 
-            placeholder="name@company.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <NativeInput 
-            label="Password" 
-            type="password" 
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          
-          <div className="form-options">
-            <label className="checkbox-container">
-              <input type="checkbox" />
-              <span>Remember me</span>
-            </label>
-            <a href="#" className="forgot-link">Forgot password?</a>
+          <div className="interaction-header">
+            <h1>Sign In</h1>
+            <p>Access your institutional account</p>
           </div>
 
-          <NativeButton type="submit" variant="primary" size="lg" className="submit-btn">
-            Login <LogIn size={18} />
-          </NativeButton>
-        </form>
+          <form onSubmit={handleLogin} className="login-form">
+            <NativeInput 
+              label="Email Address" 
+              type="email" 
+              placeholder="name@company.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <NativeInput 
+              label="Password" 
+              type="password" 
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            
+            <div className="form-options">
+              <label className="checkbox-container">
+                <input type="checkbox" />
+                <span>Stay signed in</span>
+              </label>
+              <a href="#" className="forgot-link">Recover access</a>
+            </div>
 
-        <div className="login-footer">
-          <span>Don't have an account?</span>
-          <NativeButton variant="ghost" size="sm" onClick={() => setView('register')}>
-            Register
-          </NativeButton>
+            <NativeButton type="submit" variant="primary" size="lg" className="submit-btn" style={{ marginTop: '12px' }}>
+              Access Account <LogIn size={18} />
+            </NativeButton>
+          </form>
+
+          <div className="login-footer">
+            <div className="footer-divider"></div>
+            <div className="footer-nav">
+              <span>New institutional account?</span>
+              <NativeButton variant="ghost" size="sm" onClick={() => setView('register')}>
+                Register
+              </NativeButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>

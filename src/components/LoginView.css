@@ -5,57 +5,155 @@
   right: 0;
   bottom: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
+  background-color: var(--bg-primary);
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.4s ease-out;
+  overflow: hidden;
 }
 
-.login-card {
-  width: 400px;
-  background-color: var(--bg-secondary);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-lg), 0 0 40px rgba(0, 0, 0, 0.5);
-  padding: 32px;
+/* Visual Side (Left) */
+.login-visual {
+  flex: 1.2;
+  position: relative;
+  background-color: #000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 60px;
+}
+
+.login-visual img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) brightness(0.6) contrast(1.1);
+  opacity: 0.5;
+  transition: transform 20s linear;
+  animation: slowZoom 30s infinite alternate;
+}
+
+.login-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 20%, rgba(0,0,0,0.8));
+  z-index: 1;
+}
+
+.visual-content {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  animation: slideUp 0.3s ease;
 }
 
-.login-header {
+.visual-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.visual-brand h1 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.visual-message h2 {
+  font-size: 48px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.visual-message p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  max-width: 400px;
+}
+
+.visual-footer {
   position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 16px;
 }
 
-.back-btn {
-  position: absolute;
-  top: -8px;
-  left: -16px;
+.status-indicator {
+  display: flex;
+  gap: 4px;
 }
 
-.login-brand {
+.status-dot {
+  width: 32px;
+  height: 3px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+.status-dot.active {
+  background: #fff;
+}
+
+.security-text {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Interaction Side (Right) */
+.login-interaction {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  padding: 60px;
+  background-color: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+  justify-content: center;
   align-items: center;
+}
+
+.interaction-container {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.interaction-header {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.login-brand h2 {
-  font-size: 20px;
-  font-weight: 600;
+.interaction-header h1 {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.interaction-header p {
+  color: var(--text-secondary);
+  font-size: 14px;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
 .form-options {
@@ -76,22 +174,40 @@
 .forgot-link {
   color: var(--accent-primary);
   text-decoration: none;
+  font-weight: 600;
 }
 
 .submit-btn {
-  margin-top: 8px;
-  height: 48px !important;
+  height: 56px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .login-footer {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+}
+
+.footer-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   font-size: 13px;
   color: var(--text-secondary);
-  border-top: 1px solid var(--border-color);
-  padding-top: 24px;
+}
+
+.back-to-intro {
+  margin-bottom: 24px;
 }
 
 @keyframes fadeIn {
@@ -99,7 +215,14 @@
   to { opacity: 1; }
 }
 
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes slowZoom {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+/* Responsive tweaks for smaller desktop windows */
+@media (max-width: 900px) {
+  .login-visual {
+    display: none;
+  }
 }
