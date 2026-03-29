@@ -1,9 +1,20 @@
 import React from 'react';
 import { Shield, ArrowRight, LayoutDashboard, Globe } from 'lucide-react';
 import NativeButton from './components/NativeButton';
+import LoginView from './components/LoginView';
+import RegisterView from './components/RegisterView';
+import DashboardView from './components/DashboardView';
+import { useUIStore } from './store/ui-store';
 import './App.css';
 
 const App: React.FC = () => {
+  const currentView = useUIStore((state) => state.currentView);
+  const setView = useUIStore((state) => state.setView);
+
+  if (currentView === 'login') return <LoginView />;
+  if (currentView === 'dashboard') return <DashboardView />;
+  if (currentView === 'register') return <RegisterView />;
+
   return (
     <div className="app-shell">
       {/* Native-like Title Bar (Draggable) */}
@@ -29,10 +40,20 @@ const App: React.FC = () => {
           </p>
 
           <div className="action-group">
-            <NativeButton variant="primary" size="lg" className="hero-btn">
+            <NativeButton 
+              variant="primary" 
+              size="lg" 
+              className="hero-btn"
+              onClick={() => setView('login')}
+            >
               Get Started <ArrowRight size={18} />
             </NativeButton>
-            <NativeButton variant="secondary" size="lg" className="hero-btn">
+            <NativeButton 
+              variant="secondary" 
+              size="lg" 
+              className="hero-btn"
+              onClick={() => setView('login')}
+            >
               Sign In
             </NativeButton>
           </div>

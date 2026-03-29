@@ -14,7 +14,9 @@ const createWindow = () => {
     height: 750,
     minWidth: 800,
     minHeight: 600,
-    titleBarStyle: 'hiddenInset', // Native look on macOS
+    title: 'Microsolvant',
+    icon: path.join(__dirname, '../renderer/main_window/assets/icon.png'), // Vite's output path path
+    titleBarStyle: 'hiddenInset',
     backgroundColor: '#121212', // Match our CSS bg
     show: false, // Don't show until ready-to-show
     webPreferences: {
