@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ViewType = 'intro' | 'login' | 'register' | 'dashboard';
+type ViewType = 'intro' | 'login' | 'register' | 'dashboard' | 'settings' | 'analytics' | 'reports' | 'loans' | 'clients' | 'staff';
 
 interface UIState {
   currentView: ViewType;

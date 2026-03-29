@@ -4,16 +4,29 @@ import NativeButton from './components/NativeButton';
 import LoginView from './components/LoginView';
 import RegisterView from './components/RegisterView';
 import DashboardView from './components/DashboardView';
+import SettingsView from './components/SettingsView';
 import { useUIStore } from './store/ui-store';
+import { useThemeStore } from './store/theme-store';
 import './App.css';
 
 const App: React.FC = () => {
   const currentView = useUIStore((state) => state.currentView);
   const setView = useUIStore((state) => state.setView);
+  const theme = useThemeStore((state) => state.theme);
+
+  React.useEffect(() => {
+    document.body.setAttribute('data-theme', theme);
+  }, [theme]);
 
   if (currentView === 'login') return <LoginView />;
   if (currentView === 'dashboard') return <DashboardView />;
   if (currentView === 'register') return <RegisterView />;
+  if (currentView === 'settings') return <SettingsView />;
+  if (currentView === 'analytics') return <DashboardView />;
+  if (currentView === 'reports') return <DashboardView />;
+  if (currentView === 'loans') return <DashboardView />;
+  if (currentView === 'clients') return <DashboardView />;
+  if (currentView === 'staff') return <DashboardView />;
 
   return (
     <div className="app-shell">

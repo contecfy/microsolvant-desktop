@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
 
@@ -6,6 +6,8 @@ import started from 'electron-squirrel-startup';
 if (started) {
   app.quit();
 }
+
+app.setName('Microsolvant');
 
 const createWindow = () => {
   // Create the browser window.
@@ -15,7 +17,8 @@ const createWindow = () => {
     minWidth: 800,
     minHeight: 600,
     title: 'Microsolvant',
-    icon: path.join(__dirname, '../renderer/main_window/assets/icon.png'), // Vite's output path path
+    // Use the source asset path for consistent development icons
+    icon: path.join(app.getAppPath(), 'src/assets/icon.png'),
     titleBarStyle: 'hiddenInset',
     backgroundColor: '#121212', // Match our CSS bg
     show: false, // Don't show until ready-to-show
@@ -44,7 +47,10 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  Menu.setApplicationMenu(null);
+  createWindow();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

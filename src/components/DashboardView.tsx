@@ -7,92 +7,44 @@ import {
   LogOut, 
   Search, 
   Bell,
-  Plus
+  Plus,
+  BarChart3,
+  PieChart as PieChartIcon,
+  ReceiptIndianRupee,
+  ShieldCheck,
+  TrendingUp
 } from 'lucide-react';
 import { useAuthStore } from '../store/auth-store';
 import { useUIStore } from '../store/ui-store';
 import NativeButton from './NativeButton';
+import { LoanVolumeChart, PortfolioDonutChart } from './DashboardCharts';
+import AnalyticsView from './AnalyticsView';
+import ReportsView from './ReportsView';
+import LoansView from './LoansView';
+import ClientsView from './ClientsView';
+import StaffView from './StaffView';
 import './DashboardView.css';
 
 const DashboardView: React.FC = () => {
   const logout = useAuthStore((state) => state.logout);
-  const setView = useUIStore((state) => state.setView);
+  const { currentView, setView } = useUIStore();
+
+  const activeSubView = currentView;
 
   const handleLogout = () => {
     logout();
     setView('intro');
   };
 
-  return (
-    <div className="dashboard-layout">
-      {/* Sidebar - Desktop Native Style */}
-      <aside className="sidebar">
-        <div className="sidebar-header drag-handle">
-          <div className="brand">
-            <LayoutDashboard size={20} color="var(--accent-primary)" />
-            <span>Microsolvant</span>
-          </div>
-        </div>
-
-        <nav className="sidebar-nav">
-          <div className="nav-group">
-            <span className="nav-label">Main</span>
-            <div className="nav-item active">
-              <LayoutDashboard size={18} />
-              <span>Overview</span>
-            </div>
-            <div className="nav-item">
-              <Users size={18} />
-              <span>Clients</span>
-            </div>
-            <div className="nav-item">
-              <CreditCard size={18} />
-              <span>Loans</span>
-            </div>
-          </div>
-
-          <div className="nav-group">
-            <span className="nav-label">System</span>
-            <div className="nav-item">
-              <Settings size={18} />
-              <span>Settings</span>
-            </div>
-          </div>
-        </nav>
-
-        <div className="sidebar-footer">
-          <div className="user-profile">
-            <div className="avatar">JD</div>
-            <div className="user-info">
-              <span className="user-name">Joel Doe</span>
-              <span className="user-role">Administrator</span>
-            </div>
-          </div>
-          <NativeButton variant="ghost" size="sm" onClick={handleLogout} className="logout-btn">
-            <LogOut size={16} />
-          </NativeButton>
-        </div>
-      </aside>
-
-      {/* Main Content Area */}
-      <main className="dashboard-main">
-        <header className="content-header drag-handle">
-          <div className="header-search">
-            <Search size={16} />
-            <input type="text" placeholder="Search for clients, loans..." />
-          </div>
-          
-          <div className="header-actions">
-            <NativeButton variant="secondary" size="sm" className="action-circle">
-              <Bell size={18} />
-            </NativeButton>
-            <NativeButton variant="primary" size="sm" className="create-btn">
-              <Plus size={18} /> New Loan
-            </NativeButton>
-          </div>
-        </header>
-
-        <div className="content-scrollable">
+  const renderContent = () => {
+    switch (activeSubView) {
+      case 'analytics': return <AnalyticsView />;
+      case 'reports': return <ReportsView />;
+      case 'loans': return <LoansView />;
+      case 'clients': return <ClientsView />;
+      case 'staff': return <StaffView />;
+      default:
+        return (
           <div className="content-container">
             <section className="dashboard-hero">
               <h1>Good afternoon, Joel</h1>
@@ -117,6 +69,24 @@ const DashboardView: React.FC = () => {
               </div>
             </section>
 
+            <div className="charts-main-grid">
+              <div className="chart-container large">
+                <div className="chart-header">
+                  <h3>Loan Performance</h3>
+                  <p>Dispensed vs Collected (Last 6 Months)</p>
+                </div>
+                <LoanVolumeChart />
+              </div>
+              
+              <div className="chart-container">
+                <div className="chart-header">
+                  <h3>Portfolio Health</h3>
+                  <p>Current active loan status</p>
+                </div>
+                <PortfolioDonutChart />
+              </div>
+            </div>
+
             <section className="recent-activity-section">
               <div className="section-header">
                 <h2>Recent Activity</h2>
@@ -138,6 +108,148 @@ const DashboardView: React.FC = () => {
               </div>
             </section>
           </div>
+        );
+    }
+  };
+
+  return (
+    <div className="dashboard-layout">
+      <aside className="sidebar">
+        <div className="sidebar-header drag-handle">
+          <div className="brand">
+            <LayoutDashboard size={20} color="var(--accent-primary)" />
+            <span>Microsolvant</span>
+          </div>
+        </div>
+
+        <nav className="sidebar-nav">
+          <div className="nav-group">
+            <span className="nav-label">Management</span>
+            <div 
+              className={`nav-item ${activeSubView === 'dashboard' ? 'active' : ''}`}
+              onClick={() => setView('dashboard')}
+            >
+              <LayoutDashboard size={18} />
+              <span>Overview</span>
+            </div>
+            <div 
+              className={`nav-item ${activeSubView === 'clients' ? 'active' : ''}`}
+              onClick={() => setView('clients')}
+            >
+              <Users size={18} />
+              <span>Clients</span>
+            </div>
+            <div 
+              className={`nav-item ${activeSubView === 'loans' ? 'active' : ''}`}
+              onClick={() => setView('loans')}
+            >
+              <ReceiptIndianRupee size={18} />
+              <span>Loans</span>
+            </div>
+            <div 
+              className={`nav-item ${activeSubView === 'staff' ? 'active' : ''}`}
+              onClick={() => setView('staff')}
+            >
+              <ShieldCheck size={18} />
+              <span>Team</span>
+            </div>
+          </div>
+
+          <div className="nav-group">
+            <span className="nav-label">Finance</span>
+            <div className="nav-item">
+              <TrendingUp size={18} />
+              <span>Investments</span>
+            </div>
+          </div>
+
+          <div className="nav-group">
+            <span className="nav-label">Insights</span>
+            <div 
+              className={`nav-item ${activeSubView === 'reports' ? 'active' : ''}`}
+              onClick={() => setView('reports')}
+            >
+              <BarChart3 size={18} />
+              <span>Reports</span>
+            </div>
+            <div 
+              className={`nav-item ${activeSubView === 'analytics' ? 'active' : ''}`}
+              onClick={() => setView('analytics')}
+            >
+              <PieChartIcon size={18} />
+              <span>Analytics</span>
+            </div>
+          </div>
+
+          <div className="nav-group">
+            <span className="nav-label">System</span>
+            <div className="nav-item">
+              <Bell size={18} />
+              <span>Billing</span>
+            </div>
+            <div 
+              className={`nav-item ${activeSubView === 'settings' ? 'active' : ''}`}
+              onClick={() => setView('settings')}
+            >
+              <Settings size={18} />
+              <span>Settings</span>
+            </div>
+          </div>
+        </nav>
+
+        <div className="sidebar-footer">
+          <div className="company-badge">
+            <div className="company-icon">
+              <ShieldCheck size={16} />
+            </div>
+            <div className="company-info">
+              <span className="company-name">Microsolvant Inst.</span>
+              <span className="company-type">Institutional Account</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main className="dashboard-main">
+        <header className="content-header drag-handle">
+          <div className="header-left">
+            <div className="system-status">
+              <div className="status-indicator"></div>
+              <span>System Active</span>
+            </div>
+          </div>
+
+          <div className="header-center">
+            <div className="header-search">
+              <Search size={16} />
+              <input type="text" placeholder="Search loans, clients, reports..." />
+            </div>
+          </div>
+          
+          <div className="header-right">
+            <div className="header-actions">
+              <NativeButton variant="secondary" size="sm" className="action-circle">
+                <Bell size={18} />
+              </NativeButton>
+              <div className="v-divider"></div>
+              <div className="user-nav">
+                <div className="user-profile-trigger">
+                  <div className="avatar">JD</div>
+                  <div className="user-meta">
+                    <span className="u-name">Joel Doe</span>
+                    <span className="u-role">Administrator</span>
+                  </div>
+                </div>
+                <NativeButton variant="ghost" size="sm" onClick={handleLogout} className="icon-only">
+                  <LogOut size={16} />
+                </NativeButton>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="content-scrollable">
+          {renderContent()}
         </div>
       </main>
     </div>
