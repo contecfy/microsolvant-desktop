@@ -10,20 +10,20 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
+    executableName: 'microsolvant',
     icon: './src/assets/icon', // Forge will append extension based on platform
   },
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
-    new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
+    new MakerZIP({}, ['darwin', 'linux']),
     new MakerDeb({
       options: {
         icon: './src/assets/icon.png',
         name: 'microsolvant',
         productName: 'Microsolvant',
         genericName: 'Microfinance Management',
-        categories: ['Finance', 'Office'],
+        categories: ['Office', 'System'],
       }
     }),
   ],
