@@ -10,11 +10,20 @@ if (started) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 750,
+    minWidth: 800,
+    minHeight: 600,
+    titleBarStyle: 'hiddenInset', // Native look on macOS
+    backgroundColor: '#121212', // Match our CSS bg
+    show: false, // Don't show until ready-to-show
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+  });
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
   });
 
   // and load the index.html of the app.
